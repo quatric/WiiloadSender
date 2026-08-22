@@ -1,0 +1,358 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1CA85B07A52D5DE19B7DEFAB /* WiiloadSenderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26A0E57CA1834258C9505A /* WiiloadSenderApp.swift */; };
+		7120FC4351BC4275F8F991D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B93B912EB16070B0ED4A6C0 /* ContentView.swift */; };
+		800B3DC58C800688DC3DBA96 /* WiiloadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A4AE5551B9CEF24B4DED40 /* WiiloadClient.swift */; };
+		24E8270A3C8E9FF3A09FED41 /* ZlibStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81361B78FDD7743338723E5E /* ZlibStream.swift */; };
+		944C21DDB9E563357488845E /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4889AACD300C0057B0B5848 /* AppSettings.swift */; };
+		26CCE2426A256DE653603926 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6B6E8DF380B9FA25884D337F /* Assets.xcassets */; };
+		7EC45BDC2425BB02352C8312 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 301B08CCDA3BE83363753AF8 /* libz.tbd */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		882FA8D7F69FD0C3EA5A7C18 /* WiiloadSender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WiiloadSender.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD26A0E57CA1834258C9505A /* WiiloadSenderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiiloadSenderApp.swift; sourceTree = "<group>"; };
+		3B93B912EB16070B0ED4A6C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C5A4AE5551B9CEF24B4DED40 /* WiiloadClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiiloadClient.swift; sourceTree = "<group>"; };
+		81361B78FDD7743338723E5E /* ZlibStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZlibStream.swift; sourceTree = "<group>"; };
+		E4889AACD300C0057B0B5848 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		D6716FC83711EB10F5387818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6B6E8DF380B9FA25884D337F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		048E98FDBA42712E18797B83 /* WiiloadSender-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WiiloadSender-Bridging-Header.h"; sourceTree = "<group>"; };
+		301B08CCDA3BE83363753AF8 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D26F4A7788C0D6B6A91C5F36 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EC45BDC2425BB02352C8312 /* libz.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		9D0DD283C9053CADECC09A41 = {
+			isa = PBXGroup;
+			children = (
+				D31615D5E3E4EBE09940CB9A /* WiiloadSender */,
+				CC4DC1FE51E6EE17E29F7DFD /* Products */,
+				F9793E0639F039FA637E3CAE /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		F9793E0639F039FA637E3CAE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				301B08CCDA3BE83363753AF8 /* libz.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CC4DC1FE51E6EE17E29F7DFD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				882FA8D7F69FD0C3EA5A7C18 /* WiiloadSender.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D31615D5E3E4EBE09940CB9A /* WiiloadSender */ = {
+			isa = PBXGroup;
+			children = (
+				CD26A0E57CA1834258C9505A /* WiiloadSenderApp.swift */,
+				3B93B912EB16070B0ED4A6C0 /* ContentView.swift */,
+				C5A4AE5551B9CEF24B4DED40 /* WiiloadClient.swift */,
+				81361B78FDD7743338723E5E /* ZlibStream.swift */,
+				E4889AACD300C0057B0B5848 /* AppSettings.swift */,
+				6B6E8DF380B9FA25884D337F /* Assets.xcassets */,
+				D6716FC83711EB10F5387818 /* Info.plist */,
+				048E98FDBA42712E18797B83 /* WiiloadSender-Bridging-Header.h */,
+			);
+			path = WiiloadSender;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3A5C5B9D1313AE7F636F9431 /* WiiloadSender */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EDA175D128F5C6FA921A3820 /* Build configuration list for PBXNativeTarget "WiiloadSender" */;
+			buildPhases = (
+				35D1C223C13AE306BE63C929 /* Sources */,
+				D26F4A7788C0D6B6A91C5F36 /* Frameworks */,
+				368862CCDCE28BB4B1FBC0DA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WiiloadSender;
+			productName = WiiloadSender;
+			productReference = 882FA8D7F69FD0C3EA5A7C18 /* WiiloadSender.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FD9136D05E8D31DC0F9B4182 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					3A5C5B9D1313AE7F636F9431 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = 4757AB34A30A8288A4610548 /* Build configuration list for PBXProject "WiiloadSender" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 9D0DD283C9053CADECC09A41;
+			productRefGroup = CC4DC1FE51E6EE17E29F7DFD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3A5C5B9D1313AE7F636F9431 /* WiiloadSender */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		368862CCDCE28BB4B1FBC0DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				26CCE2426A256DE653603926 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		35D1C223C13AE306BE63C929 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1CA85B07A52D5DE19B7DEFAB /* WiiloadSenderApp.swift in Sources */,
+				7120FC4351BC4275F8F991D4 /* ContentView.swift in Sources */,
+				800B3DC58C800688DC3DBA96 /* WiiloadClient.swift in Sources */,
+				24E8270A3C8E9FF3A09FED41 /* ZlibStream.swift in Sources */,
+				944C21DDB9E563357488845E /* AppSettings.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A6C8ACDB49A326E8E65265ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		82ED94CAFFE98ADE38D2395C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B63A341DE29CF5F3D15A4855 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WiiloadSender/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.larsenv.wiiloadsender;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "WiiloadSender/WiiloadSender-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		768C018A2AAD3A6DD36C71A0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = WiiloadSender/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
+				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.larsenv.wiiloadsender;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "WiiloadSender/WiiloadSender-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4757AB34A30A8288A4610548 /* Build configuration list for PBXProject "WiiloadSender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6C8ACDB49A326E8E65265ED /* Debug */,
+				82ED94CAFFE98ADE38D2395C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EDA175D128F5C6FA921A3820 /* Build configuration list for PBXNativeTarget "WiiloadSender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B63A341DE29CF5F3D15A4855 /* Debug */,
+				768C018A2AAD3A6DD36C71A0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = FD9136D05E8D31DC0F9B4182 /* Project object */;
+}
