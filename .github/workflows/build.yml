@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.app/Contents/Developer
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build for iOS Simulator
+        run: |
+          xcodebuild build \
+            -project WiiloadSender.xcodeproj \
+            -scheme WiiloadSender \
+            -destination "generic/platform=iOS Simulator" \
+            -configuration Debug \
+            CODE_SIGNING_ALLOWED=NO
