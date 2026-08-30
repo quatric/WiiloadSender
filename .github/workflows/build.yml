@@ -26,3 +26,26 @@ jobs:
             -destination "generic/platform=iOS Simulator" \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO
+
+      - name: Build and Package IPA
+        run: |
+          xcodebuild archive \
+            -project WiiloadSender.xcodeproj \
+            -scheme WiiloadSender \
+            -destination "generic/platform=iOS" \
+            -archivePath build/WiiloadSender.xcarchive \
+            -configuration Release \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+          mkdir -p build/Payload
+          cp -r build/WiiloadSender.xcarchive/Products/Applications/WiiloadSender.app build/Payload/
+          cd build
+          zip -r WiiloadSender.ipa Payload
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: WiiloadSender.ipa
+          path: build/WiiloadSender.ipa
+
