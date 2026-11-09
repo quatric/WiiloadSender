@@ -13,6 +13,9 @@ struct ContentView: View {
     @State private var isShowingSettings = false
 
     @State private var isScanning = false
+    @State private var isShowingURLPrompt = false
+    @State private var isDownloading = false
+    @State private var urlText = ""
     @State private var status: SendStatus = .idle
     @State private var errorMessage: String?
 
@@ -71,6 +74,17 @@ struct ContentView: View {
                             Spacer()
                         }
                     }
+
+                    Button {
+                        isShowingURLPrompt = true
+                    } label: {
+                        HStack {
+                            if isDownloading { ProgressView().padding(.trailing, 6) }
+                            Image(systemName: "link")
+                            Text(isDownloading ? "Downloading…" : "Load from URL")
+                        }
+                    }
+                    .disabled(isDownloading || status.isBusy)
                 }
 
                 Section {
@@ -115,7 +129,30 @@ struct ContentView: View {
                 handleFileImportResult(result)
             }
             .onOpenURL { url in
-                loadFile(from: url)
+                if url.isFileURL {
+                    loadFile(from: url)
+                } else {
+                    Task { await downloadFile(from: url) }
+                }
+            }
+            .alert("Load from URL", isPresented: $isShowingURLPrompt) {
+                TextField("https://example.com/app.dol", text: $urlText)
+                    .keyboardType(.URL)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                Button("Download") {
+                    let trimmed = urlText.trimmingCharacters(in: .whitespacesAndNewlines)
+                    guard let url = URL(string: trimmed), let scheme = url.scheme?.lowercased(),
+                          scheme == "http" || scheme == "https" else {
+                        errorMessage = "Enter a valid http(s) URL."
+                        status = .failure
+                        return
+                    }
+                    Task { await downloadFile(from: url) }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Enter a link to a .dol, .elf, .rpx or .zip file.")
             }
         }
         .preferredColorScheme(settings.appearance.colorScheme)
@@ -126,6 +163,7 @@ struct ContentView: View {
             && !settings.lastIPAddress.trimmingCharacters(in: .whitespaces).isEmpty
             && !status.isBusy
             && !isScanning
+            && !isDownloading
             && (1...65535).contains(settings.port)
     }
 
@@ -212,6 +250,31 @@ struct ContentView: View {
                 errorMessage = error.localizedDescription
                 status = .failure
             }
+        }
+    }
+
+    private func downloadFile(from url: URL) async {
+        isDownloading = true
+        errorMessage = nil
+        status = .idle
+        defer { isDownloading = false }
+        do {
+            let (data, response) = try await URLSession.shared.data(from: url)
+            if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) {
+                throw URLError(.badServerResponse)
+            }
+            var name = response.suggestedFilename ?? url.lastPathComponent
+            if name.isEmpty || name == "/" { name = "download.dol" }
+            let ext = (name as NSString).pathExtension.lowercased()
+            errorMessage = ["dol", "elf", "rpx", "zip"].contains(ext) ? nil
+                : "Downloaded file isn't a .dol, .elf, .rpx or .zip, but it'll be sent as-is."
+            selectedFileData = data
+            selectedFileURL = url
+            selectedFileName = name
+            selectedFileSize = data.count
+        } catch {
+            errorMessage = "Download failed: \(error.localizedDescription)"
+            status = .failure
         }
     }
 
