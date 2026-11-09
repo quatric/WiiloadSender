@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var isShowingFileImporter = false
     @State private var isShowingSettings = false
 
+    @State private var isScanning = false
     @State private var status: SendStatus = .idle
     @State private var errorMessage: String?
 
@@ -40,6 +41,16 @@ struct ContentView: View {
                         .keyboardType(.numbersAndPunctuation)
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
+                    Button {
+                        Task { await scan() }
+                    } label: {
+                        HStack {
+                            if isScanning { ProgressView().padding(.trailing, 6) }
+                            Image(systemName: "dot.radiowaves.left.and.right")
+                            Text(isScanning ? "Scanning…" : "Scan for Wii")
+                        }
+                    }
+                    .disabled(isScanning || status.isBusy)
                 }
 
                 Section("File") {
@@ -49,10 +60,10 @@ struct ContentView: View {
                         HStack {
                             Image(systemName: "doc.badge.plus")
                             VStack(alignment: .leading) {
-                                Text(selectedFileName.isEmpty ? "Choose .dol or .elf File" : selectedFileName)
+                                Text(selectedFileName.isEmpty ? "Choose .dol, .elf, .rpx or .zip File" : selectedFileName)
                                     .foregroundStyle(selectedFileName.isEmpty ? .secondary : .primary)
                                 if selectedFileSize > 0 {
-                                    Text(byteCountFormatted(selectedFileSize))
+                                    Text(byteCountFormatted(selectedFileSize) + (settings.arguments.isEmpty ? "" : " · " + settings.arguments))
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
                                 }
@@ -114,6 +125,8 @@ struct ContentView: View {
         selectedFileData != nil
             && !settings.lastIPAddress.trimmingCharacters(in: .whitespaces).isEmpty
             && !status.isBusy
+            && !isScanning
+            && (1...65535).contains(settings.port)
     }
 
     private var sendButtonTitle: String {
@@ -159,8 +172,8 @@ struct ContentView: View {
         do {
             let data = try Data(contentsOf: url)
             let ext = url.pathExtension.lowercased()
-            if ext != "dol" && ext != "elf" {
-                errorMessage = "Selected file isn't a .dol or .elf, but it'll be sent as-is."
+            if !["dol", "elf", "rpx", "zip"].contains(ext) {
+                errorMessage = "Selected file isn't a .dol, .elf, .rpx or .zip, but it'll be sent as-is."
             } else {
                 errorMessage = nil
             }
@@ -181,7 +194,8 @@ struct ContentView: View {
         status = .connecting
 
         do {
-            try await client.send(fileData: data, to: settings.lastIPAddress) { progress in
+            try await client.send(fileData: data, fileName: selectedFileName, arguments: settings.arguments,
+                                  to: settings.lastIPAddress, port: UInt16(settings.port)) { progress in
                 Task { @MainActor in
                     switch progress {
                     case .connecting:
@@ -201,6 +215,20 @@ struct ContentView: View {
         }
     }
 
+    private func scan() async {
+        isScanning = true
+        errorMessage = nil
+        status = .idle
+        let found = await WiiloadClient.scan(port: UInt16(settings.port))
+        isScanning = false
+        if let found {
+            settings.lastIPAddress = found
+        } else {
+            errorMessage = "No Wii found on this network. Make sure the Homebrew Channel is waiting for a connection and Local Network access is allowed."
+            status = .failure
+        }
+    }
+
     private func byteCountFormatted(_ bytes: Int) -> String {
         ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file)
     }
@@ -213,6 +241,18 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             Form {
+                Section {
+                    TextField("Arguments", text: $settings.arguments)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                    TextField("Port", value: $settings.port, format: .number.grouping(.never))
+                        .keyboardType(.numberPad)
+                } header: {
+                    Text("Wiiload")
+                } footer: {
+                    Text("Arguments are passed to the program (space-separated). Default port is 4299.")
+                }
+
                 Section("Appearance") {
                     Picker("Appearance", selection: $settings.appearance) {
                         ForEach(AppearanceMode.allCases) { mode in

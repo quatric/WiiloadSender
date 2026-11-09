@@ -30,17 +30,33 @@ final class WiiloadClient {
         case finished
     }
 
-    private static let port: NWEndpoint.Port = 4299
+    static let defaultPort: UInt16 = 4299
     private static let versionMajor: UInt8 = 0
     private static let versionMinor: UInt8 = 5
     private static let chunkSize = 128 * 1024
 
     private var connection: NWConnection?
 
-    func send(fileData: Data, to host: String, progress: @escaping (Progress) -> Void) async throws {
-        guard !host.trimmingCharacters(in: .whitespaces).isEmpty else {
+    /// Builds the null-separated argument buffer exactly like the Android app:
+    /// `filename\0` followed by each space-separated argument and a `\0`.
+    static func argumentBuffer(fileName: String, arguments: String) -> Data {
+        var buffer = Data(fileName.utf8)
+        buffer.append(0)
+        for arg in arguments.split(whereSeparator: { $0 == " " }) {
+            buffer.append(contentsOf: Array(arg.utf8))
+            buffer.append(0)
+        }
+        return buffer
+    }
+
+    func send(fileData: Data, fileName: String, arguments: String, to host: String, port: UInt16,
+              progress: @escaping (Progress) -> Void) async throws {
+        guard !host.trimmingCharacters(in: .whitespaces).isEmpty,
+              let nwPort = NWEndpoint.Port(rawValue: port) else {
             throw SendError.invalidAddress
         }
+        let host = host.trimmingCharacters(in: .whitespaces)
+        let argBuffer = Self.argumentBuffer(fileName: fileName, arguments: arguments)
 
         let compressed: Data
         do {
@@ -53,13 +69,13 @@ final class WiiloadClient {
         header.append(contentsOf: Array("HAXX".utf8))
         header.append(Self.versionMajor)
         header.append(Self.versionMinor)
-        header.append(contentsOf: bigEndianBytes(UInt16(0)))               // argument buffer length (no args)
+        header.append(contentsOf: bigEndianBytes(UInt16(min(argBuffer.count, Int(UInt16.max)))))   // argument buffer length
         header.append(contentsOf: bigEndianBytes(UInt32(compressed.count)))
         header.append(contentsOf: bigEndianBytes(UInt32(fileData.count)))
 
         let endpoint = NWEndpoint.Host(host)
         let params = NWParameters.tcp
-        let connection = NWConnection(host: endpoint, port: Self.port, using: params)
+        let connection = NWConnection(host: endpoint, port: nwPort, using: params)
         self.connection = connection
 
         try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
@@ -92,6 +108,8 @@ final class WiiloadClient {
 
         try await sendAll(header, on: connection)
         try await sendChunked(compressed, on: connection, progress: progress)
+
+        try await sendAll(argBuffer, on: connection)
 
         progress(.finished)
         connection.cancel()
@@ -140,5 +158,74 @@ final class WiiloadClient {
             UInt8((value >> 8) & 0xff),
             UInt8(value & 0xff)
         ]
+    }
+
+    // MARK: - Network scan (same approach as the Android app: probe every
+    // host on the device's /24 for an open wiiload port)
+
+    /// Returns the first three octets plus trailing dot of the Wi-Fi address, e.g. "192.168.1."
+    static func localSubnetPrefix() -> String? {
+        var ifaddr: UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&ifaddr) == 0, let first = ifaddr else { return nil }
+        defer { freeifaddrs(ifaddr) }
+        var fallback: String?
+        for ptr in sequence(first: first, next: { $0.pointee.ifa_next }) {
+            let ifa = ptr.pointee
+            guard let addr = ifa.ifa_addr, addr.pointee.sa_family == UInt8(AF_INET) else { continue }
+            let name = String(cString: ifa.ifa_name)
+            guard name.hasPrefix("en") else { continue }
+            var host = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+            getnameinfo(addr, socklen_t(addr.pointee.sa_len), &host, socklen_t(host.count), nil, 0, NI_NUMERICHOST)
+            let ip = String(cString: host)
+            let parts = ip.split(separator: ".")
+            guard parts.count == 4, !ip.hasPrefix("169.254.") else { continue }
+            let prefix = parts[0...2].joined(separator: ".") + "."
+            if name == "en0" { return prefix }
+            fallback = fallback ?? prefix
+        }
+        return fallback
+    }
+
+    /// Scans x.x.x.1-254 for a listener on `port`. Returns the first match.
+    static func scan(port: UInt16, timeout: TimeInterval = 0.6) async -> String? {
+        guard let prefix = localSubnetPrefix() else { return nil }
+        return await withTaskGroup(of: String?.self) { group in
+            for i in 1...254 {
+                let ip = prefix + String(i)
+                group.addTask { await probe(host: ip, port: port, timeout: timeout) ? ip : nil }
+            }
+            for await result in group {
+                if let ip = result {
+                    group.cancelAll()
+                    return ip
+                }
+            }
+            return nil
+        }
+    }
+
+    private static func probe(host: String, port: UInt16, timeout: TimeInterval) async -> Bool {
+        guard let nwPort = NWEndpoint.Port(rawValue: port) else { return false }
+        let connection = NWConnection(host: NWEndpoint.Host(host), port: nwPort, using: .tcp)
+        return await withCheckedContinuation { (continuation: CheckedContinuation<Bool, Never>) in
+            let lock = NSLock()
+            var done = false
+            func finish(_ ok: Bool) {
+                lock.lock(); defer { lock.unlock() }
+                guard !done else { return }
+                done = true
+                connection.cancel()
+                continuation.resume(returning: ok)
+            }
+            connection.stateUpdateHandler = { state in
+                switch state {
+                case .ready: finish(true)
+                case .failed, .cancelled: finish(false)
+                default: break
+                }
+            }
+            connection.start(queue: .global(qos: .utility))
+            DispatchQueue.global().asyncAfter(deadline: .now() + timeout) { finish(false) }
+        }
     }
 }

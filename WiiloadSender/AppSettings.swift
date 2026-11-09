@@ -34,7 +34,17 @@ final class AppSettings: ObservableObject {
         didSet { UserDefaults.standard.set(appearance.rawValue, forKey: Keys.appearance) }
     }
 
+    @Published var port: Int {
+        didSet { UserDefaults.standard.set(port, forKey: Keys.port) }
+    }
+
+    @Published var arguments: String {
+        didSet { UserDefaults.standard.set(arguments, forKey: Keys.arguments) }
+    }
+
     private enum Keys {
+        static let port = "port"
+        static let arguments = "arguments"
         static let lastIP = "lastIPAddress"
         static let appearance = "appearanceMode"
     }
@@ -42,6 +52,9 @@ final class AppSettings: ObservableObject {
     init() {
         let defaults = UserDefaults.standard
         self.lastIPAddress = defaults.string(forKey: Keys.lastIP) ?? ""
+        let storedPort = defaults.integer(forKey: Keys.port)
+        self.port = (1...65535).contains(storedPort) ? storedPort : Int(WiiloadClient.defaultPort)
+        self.arguments = defaults.string(forKey: Keys.arguments) ?? ""
         let storedAppearance = defaults.integer(forKey: Keys.appearance)
         self.appearance = AppearanceMode(rawValue: storedAppearance) ?? .system
     }
