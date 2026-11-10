@@ -8,6 +8,7 @@ struct ContentView: View {
     @State private var selectedFileData: Data?
     @State private var selectedFileName: String = ""
     @State private var selectedFileSize: Int = 0
+    @State private var sharedFileURL: URL?
 
     @State private var isShowingFileImporter = false
     @State private var isShowingSettings = false
@@ -75,6 +76,15 @@ struct ContentView: View {
                         }
                     }
 
+                    if let shareURL = sharedFileURL {
+                        ShareLink(item: shareURL) {
+                            HStack {
+                                Image(systemName: "square.and.arrow.up")
+                                Text("Share \(selectedFileName)")
+                            }
+                        }
+                    }
+
                     Button {
                         isShowingURLPrompt = true
                     } label: {
@@ -107,6 +117,16 @@ struct ContentView: View {
                     statusFooter
                 }
             }
+            .background(
+                Color.clear
+                    .fileImporter(
+                        isPresented: $isShowingFileImporter,
+                        allowedContentTypes: [.item],
+                        allowsMultipleSelection: false
+                    ) { result in
+                        handleFileImportResult(result)
+                    }
+            )
             .navigationTitle("Wiiload Sender")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -120,13 +140,6 @@ struct ContentView: View {
             .sheet(isPresented: $isShowingSettings) {
                 SettingsView()
                     .environmentObject(settings)
-            }
-            .fileImporter(
-                isPresented: $isShowingFileImporter,
-                allowedContentTypes: [UTType.dolFile, UTType.elfFile, UTType.data, UTType.item],
-                allowsMultipleSelection: false
-            ) { result in
-                handleFileImportResult(result)
             }
             .onOpenURL { url in
                 if url.isFileURL {
@@ -202,28 +215,50 @@ struct ContentView: View {
     }
 
     private func loadFile(from url: URL) {
-        let didStartAccessing = url.startAccessingSecurityScopedResource()
-        defer {
-            if didStartAccessing { url.stopAccessingSecurityScopedResource() }
-        }
-
-        do {
-            let data = try Data(contentsOf: url)
-            let ext = url.pathExtension.lowercased()
-            if !["dol", "elf", "rpx", "zip"].contains(ext) {
-                errorMessage = "Selected file isn't a .dol, .elf, .rpx or .zip, but it'll be sent as-is."
-            } else {
-                errorMessage = nil
+        status = .idle
+        errorMessage = nil
+        Task {
+            do {
+                let data = try await Self.readCoordinated(url)
+                let ext = url.pathExtension.lowercased()
+                if !["dol", "elf", "rpx", "zip"].contains(ext) {
+                    errorMessage = "Selected file isn't a .dol, .elf, .rpx or .zip, but it'll be sent as-is."
+                }
+                setSelection(data: data, name: url.lastPathComponent, source: url)
+            } catch {
+                errorMessage = "Couldn't read that file: \(error.localizedDescription)"
+                status = .failure
             }
-            selectedFileData = data
-            selectedFileURL = url
-            selectedFileName = url.lastPathComponent
-            selectedFileSize = data.count
-            status = .idle
-        } catch {
-            errorMessage = "Couldn't read that file: \(error.localizedDescription)"
-            status = .failure
         }
+    }
+
+    private func setSelection(data: Data, name: String, source: URL?) {
+        selectedFileData = data
+        selectedFileURL = source
+        selectedFileName = name
+        selectedFileSize = data.count
+        // Keep a temp copy so the loaded file can be shared from inside the app.
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent("shared", isDirectory: true)
+        try? FileManager.default.removeItem(at: dir)
+        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        let copy = dir.appendingPathComponent(name)
+        sharedFileURL = (try? data.write(to: copy)) != nil ? copy : nil
+    }
+
+    /// Reads a (possibly security-scoped / iCloud) file off the main thread using file coordination.
+    private static func readCoordinated(_ url: URL) async throws -> Data {
+        try await Task.detached(priority: .userInitiated) {
+            let accessing = url.startAccessingSecurityScopedResource()
+            defer { if accessing { url.stopAccessingSecurityScopedResource() } }
+            var coordError: NSError?
+            var result: Result<Data, Error>?
+            NSFileCoordinator().coordinate(readingItemAt: url, options: [], error: &coordError) { readURL in
+                result = Result { try Data(contentsOf: readURL) }
+            }
+            if let coordError { throw coordError }
+            guard let result else { throw CocoaError(.fileReadUnknown) }
+            return try result.get()
+        }.value
     }
 
     private func sendFile() async {
@@ -268,10 +303,7 @@ struct ContentView: View {
             let ext = (name as NSString).pathExtension.lowercased()
             errorMessage = ["dol", "elf", "rpx", "zip"].contains(ext) ? nil
                 : "Downloaded file isn't a .dol, .elf, .rpx or .zip, but it'll be sent as-is."
-            selectedFileData = data
-            selectedFileURL = url
-            selectedFileName = name
-            selectedFileSize = data.count
+            setSelection(data: data, name: name, source: url)
         } catch {
             errorMessage = "Download failed: \(error.localizedDescription)"
             status = .failure
