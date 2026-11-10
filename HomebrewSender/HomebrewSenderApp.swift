@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct WiiloadSenderApp: App {
+struct HomebrewSenderApp: App {
     @StateObject private var settings = AppSettings()
 
     var body: some Scene {

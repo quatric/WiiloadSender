@@ -21,8 +21,8 @@ jobs:
       - name: Build for iOS Simulator
         run: |
           xcodebuild build \
-            -project WiiloadSender.xcodeproj \
-            -scheme WiiloadSender \
+            -project HomebrewSender.xcodeproj \
+            -scheme HomebrewSender \
             -destination "generic/platform=iOS Simulator" \
             -configuration Debug \
             CODE_SIGNING_ALLOWED=NO
@@ -30,22 +30,22 @@ jobs:
       - name: Build and Package IPA
         run: |
           xcodebuild archive \
-            -project WiiloadSender.xcodeproj \
-            -scheme WiiloadSender \
+            -project HomebrewSender.xcodeproj \
+            -scheme HomebrewSender \
             -destination "generic/platform=iOS" \
-            -archivePath build/WiiloadSender.xcarchive \
+            -archivePath build/HomebrewSender.xcarchive \
             -configuration Release \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY=""
           mkdir -p build/Payload
-          cp -r build/WiiloadSender.xcarchive/Products/Applications/WiiloadSender.app build/Payload/
+          cp -r build/HomebrewSender.xcarchive/Products/Applications/HomebrewSender.app build/Payload/
           cd build
-          zip -r WiiloadSender.ipa Payload
+          zip -r HomebrewSender.ipa Payload
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: WiiloadSender.ipa
-          path: build/WiiloadSender.ipa
+          name: HomebrewSender.ipa
+          path: build/HomebrewSender.ipa
 

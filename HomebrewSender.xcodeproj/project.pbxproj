@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A1B2C3D4E5F60718293A4B5D /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* FilePicker.swift */; };
-		1CA85B07A52D5DE19B7DEFAB /* WiiloadSenderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26A0E57CA1834258C9505A /* WiiloadSenderApp.swift */; };
+		1CA85B07A52D5DE19B7DEFAB /* HomebrewSenderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26A0E57CA1834258C9505A /* HomebrewSenderApp.swift */; };
 		7120FC4351BC4275F8F991D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B93B912EB16070B0ED4A6C0 /* ContentView.swift */; };
 		800B3DC58C800688DC3DBA96 /* WiiloadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A4AE5551B9CEF24B4DED40 /* WiiloadClient.swift */; };
 		24E8270A3C8E9FF3A09FED41 /* ZlibStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81361B78FDD7743338723E5E /* ZlibStream.swift */; };
@@ -19,15 +19,15 @@
 
 /* Begin PBXFileReference section */
 		A1B2C3D4E5F60718293A4B5C /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
-		882FA8D7F69FD0C3EA5A7C18 /* WiiloadSender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WiiloadSender.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CD26A0E57CA1834258C9505A /* WiiloadSenderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiiloadSenderApp.swift; sourceTree = "<group>"; };
+		882FA8D7F69FD0C3EA5A7C18 /* HomebrewSender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomebrewSender.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD26A0E57CA1834258C9505A /* HomebrewSenderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomebrewSenderApp.swift; sourceTree = "<group>"; };
 		3B93B912EB16070B0ED4A6C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C5A4AE5551B9CEF24B4DED40 /* WiiloadClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiiloadClient.swift; sourceTree = "<group>"; };
 		81361B78FDD7743338723E5E /* ZlibStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZlibStream.swift; sourceTree = "<group>"; };
 		E4889AACD300C0057B0B5848 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		D6716FC83711EB10F5387818 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6B6E8DF380B9FA25884D337F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		048E98FDBA42712E18797B83 /* WiiloadSender-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WiiloadSender-Bridging-Header.h"; sourceTree = "<group>"; };
+		048E98FDBA42712E18797B83 /* HomebrewSender-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HomebrewSender-Bridging-Header.h"; sourceTree = "<group>"; };
 		301B08CCDA3BE83363753AF8 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -46,7 +46,7 @@
 		9D0DD283C9053CADECC09A41 = {
 			isa = PBXGroup;
 			children = (
-				D31615D5E3E4EBE09940CB9A /* WiiloadSender */,
+				D31615D5E3E4EBE09940CB9A /* HomebrewSender */,
 				CC4DC1FE51E6EE17E29F7DFD /* Products */,
 				F9793E0639F039FA637E3CAE /* Frameworks */,
 			);
@@ -63,15 +63,15 @@
 		CC4DC1FE51E6EE17E29F7DFD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				882FA8D7F69FD0C3EA5A7C18 /* WiiloadSender.app */,
+				882FA8D7F69FD0C3EA5A7C18 /* HomebrewSender.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D31615D5E3E4EBE09940CB9A /* WiiloadSender */ = {
+		D31615D5E3E4EBE09940CB9A /* HomebrewSender */ = {
 			isa = PBXGroup;
 			children = (
-				CD26A0E57CA1834258C9505A /* WiiloadSenderApp.swift */,
+				CD26A0E57CA1834258C9505A /* HomebrewSenderApp.swift */,
 				3B93B912EB16070B0ED4A6C0 /* ContentView.swift */,
 				A1B2C3D4E5F60718293A4B5C /* FilePicker.swift */,
 				C5A4AE5551B9CEF24B4DED40 /* WiiloadClient.swift */,
@@ -79,17 +79,17 @@
 				E4889AACD300C0057B0B5848 /* AppSettings.swift */,
 				6B6E8DF380B9FA25884D337F /* Assets.xcassets */,
 				D6716FC83711EB10F5387818 /* Info.plist */,
-				048E98FDBA42712E18797B83 /* WiiloadSender-Bridging-Header.h */,
+				048E98FDBA42712E18797B83 /* HomebrewSender-Bridging-Header.h */,
 			);
-			path = WiiloadSender;
+			path = HomebrewSender;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3A5C5B9D1313AE7F636F9431 /* WiiloadSender */ = {
+		3A5C5B9D1313AE7F636F9431 /* HomebrewSender */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EDA175D128F5C6FA921A3820 /* Build configuration list for PBXNativeTarget "WiiloadSender" */;
+			buildConfigurationList = EDA175D128F5C6FA921A3820 /* Build configuration list for PBXNativeTarget "HomebrewSender" */;
 			buildPhases = (
 				35D1C223C13AE306BE63C929 /* Sources */,
 				D26F4A7788C0D6B6A91C5F36 /* Frameworks */,
@@ -99,9 +99,9 @@
 			);
 			dependencies = (
 			);
-			name = WiiloadSender;
-			productName = WiiloadSender;
-			productReference = 882FA8D7F69FD0C3EA5A7C18 /* WiiloadSender.app */;
+			name = HomebrewSender;
+			productName = HomebrewSender;
+			productReference = 882FA8D7F69FD0C3EA5A7C18 /* HomebrewSender.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -119,7 +119,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4757AB34A30A8288A4610548 /* Build configuration list for PBXProject "WiiloadSender" */;
+			buildConfigurationList = 4757AB34A30A8288A4610548 /* Build configuration list for PBXProject "HomebrewSender" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -132,7 +132,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3A5C5B9D1313AE7F636F9431 /* WiiloadSender */,
+				3A5C5B9D1313AE7F636F9431 /* HomebrewSender */,
 			);
 		};
 /* End PBXProject section */
@@ -153,7 +153,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1CA85B07A52D5DE19B7DEFAB /* WiiloadSenderApp.swift in Sources */,
+				1CA85B07A52D5DE19B7DEFAB /* HomebrewSenderApp.swift in Sources */,
 				7120FC4351BC4275F8F991D4 /* ContentView.swift in Sources */,
 				A1B2C3D4E5F60718293A4B5D /* FilePicker.swift in Sources */,
 				800B3DC58C800688DC3DBA96 /* WiiloadClient.swift in Sources */,
@@ -291,7 +291,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = WiiloadSender/Info.plist;
+				INFOPLIST_FILE = HomebrewSender/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -300,10 +300,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.quatricsoftware.wiiloadsender;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quatricsoftware.homebrewsender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "WiiloadSender/WiiloadSender-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "HomebrewSender/HomebrewSender-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -319,7 +319,7 @@
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = WiiloadSender/Info.plist;
+				INFOPLIST_FILE = HomebrewSender/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UILaunchScreen_Generation = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -328,10 +328,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.quatricsoftware.wiiloadsender;
+				PRODUCT_BUNDLE_IDENTIFIER = com.quatricsoftware.homebrewsender;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "WiiloadSender/WiiloadSender-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "HomebrewSender/HomebrewSender-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -340,7 +340,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4757AB34A30A8288A4610548 /* Build configuration list for PBXProject "WiiloadSender" */ = {
+		4757AB34A30A8288A4610548 /* Build configuration list for PBXProject "HomebrewSender" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A6C8ACDB49A326E8E65265ED /* Debug */,
@@ -349,7 +349,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EDA175D128F5C6FA921A3820 /* Build configuration list for PBXNativeTarget "WiiloadSender" */ = {
+		EDA175D128F5C6FA921A3820 /* Build configuration list for PBXNativeTarget "HomebrewSender" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B63A341DE29CF5F3D15A4855 /* Debug */,

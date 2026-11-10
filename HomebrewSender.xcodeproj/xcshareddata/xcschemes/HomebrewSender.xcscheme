@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "3A5C5B9D1313AE7F636F9431"
-               BuildableName = "WiiloadSender.app"
-               BlueprintName = "WiiloadSender"
-               ReferencedContainer = "container:WiiloadSender.xcodeproj">
+               BuildableName = "HomebrewSender.app"
+               BlueprintName = "HomebrewSender"
+               ReferencedContainer = "container:HomebrewSender.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3A5C5B9D1313AE7F636F9431"
-            BuildableName = "WiiloadSender.app"
-            BlueprintName = "WiiloadSender"
-            ReferencedContainer = "container:WiiloadSender.xcodeproj">
+            BuildableName = "HomebrewSender.app"
+            BlueprintName = "HomebrewSender"
+            ReferencedContainer = "container:HomebrewSender.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "3A5C5B9D1313AE7F636F9431"
-            BuildableName = "WiiloadSender.app"
-            BlueprintName = "WiiloadSender"
-            ReferencedContainer = "container:WiiloadSender.xcodeproj">
+            BuildableName = "HomebrewSender.app"
+            BlueprintName = "HomebrewSender"
+            ReferencedContainer = "container:HomebrewSender.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

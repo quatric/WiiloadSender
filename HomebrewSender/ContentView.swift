@@ -39,7 +39,14 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Wii / Wii U Address") {
+                Section("Console") {
+                    Picker("Console", selection: $settings.platform) {
+                        ForEach(Platform.allCases) { p in Text(p.label).tag(p) }
+                    }
+                    .pickerStyle(.segmented)
+                }
+
+                Section("\(settings.platform.label) Address") {
                     TextField("e.g. 192.168.1.42", text: $settings.lastIPAddress)
                         .keyboardType(.numbersAndPunctuation)
                         .autocorrectionDisabled()
@@ -50,7 +57,7 @@ struct ContentView: View {
                         HStack {
                             if isScanning { ProgressView().padding(.trailing, 6) }
                             Image(systemName: "dot.radiowaves.left.and.right")
-                            Text(isScanning ? "Scanning…" : "Scan for Wii")
+                            Text(isScanning ? "Scanning…" : "Scan for \(settings.platform.label)")
                         }
                     }
                     .disabled(isScanning || status.isBusy)
@@ -65,7 +72,7 @@ struct ContentView: View {
                         HStack {
                             Image(systemName: "doc.badge.plus")
                             VStack(alignment: .leading) {
-                                Text(selectedFileName.isEmpty ? "Choose .dol, .elf, .rpx or .zip File" : selectedFileName)
+                                Text(selectedFileName.isEmpty ? "Choose a file to send" : selectedFileName)
                                     .foregroundStyle(selectedFileName.isEmpty ? .secondary : .primary)
                                 if selectedFileSize > 0 {
                                     Text(byteCountFormatted(selectedFileSize) + (settings.arguments.isEmpty ? "" : " · " + settings.arguments))
@@ -118,7 +125,7 @@ struct ContentView: View {
                     statusFooter
                 }
             }
-            .navigationTitle("Wiiload Sender")
+            .navigationTitle("Homebrew Sender")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -172,7 +179,7 @@ struct ContentView: View {
 
     private var sendButtonTitle: String {
         switch status {
-        case .idle, .failure: return "Send to Wii"
+        case .idle, .failure: return "Send to \(settings.platform.label)"
         case .connecting: return "Connecting…"
         case .sending(let fraction): return "Sending… \(Int(fraction * 100))%"
         case .success: return "Sent!"
@@ -189,7 +196,7 @@ struct ContentView: View {
             Label(errorMessage ?? "Something went wrong.", systemImage: "xmark.octagon.fill")
                 .foregroundStyle(.red)
         default:
-            Text("Make sure the Homebrew Channel (or another wiiload listener) is running on your Wii and connected to the same network.")
+            Text(settings.platform.hint)
         }
     }
 
@@ -257,8 +264,7 @@ struct ContentView: View {
         status = .connecting
 
         do {
-            try await client.send(fileData: data, fileName: selectedFileName, arguments: settings.arguments,
-                                  to: settings.lastIPAddress, port: UInt16(settings.port)) { progress in
+            let onProgress: (WiiloadClient.Progress) -> Void = { progress in
                 Task { @MainActor in
                     switch progress {
                     case .connecting:
@@ -269,6 +275,14 @@ struct ContentView: View {
                         status = .success
                     }
                 }
+            }
+            if settings.platform.usesLinkProtocol {
+                try await client.sendLink(fileData: data, fileName: selectedFileName, platform: settings.platform,
+                                          arguments: settings.arguments, to: settings.lastIPAddress,
+                                          port: UInt16(settings.port), progress: onProgress)
+            } else {
+                try await client.send(fileData: data, fileName: selectedFileName, arguments: settings.arguments,
+                                      to: settings.lastIPAddress, port: UInt16(settings.port), progress: onProgress)
             }
         } catch {
             await MainActor.run {
@@ -309,7 +323,7 @@ struct ContentView: View {
         if let found {
             settings.lastIPAddress = found
         } else {
-            errorMessage = "No Wii found on this network. Make sure the Homebrew Channel is waiting for a connection and Local Network access is allowed."
+            errorMessage = "No \(settings.platform.label) found on this network. \(settings.platform.hint) Also make sure Local Network access is allowed for this app."
             status = .failure
         }
     }
@@ -333,9 +347,9 @@ struct SettingsView: View {
                     TextField("Port", value: $settings.port, format: .number.grouping(.never))
                         .keyboardType(.numberPad)
                 } header: {
-                    Text("Wiiload")
+                    Text("\(settings.platform.protocolName)")
                 } footer: {
-                    Text("Arguments are passed to the program (space-separated). Default port is 4299.")
+                    Text("Arguments are passed to the program (space-separated). Default port is \(settings.platform.defaultPort).")
                 }
 
                 Section("Appearance") {
@@ -358,8 +372,8 @@ struct SettingsView: View {
 }
 
 extension UTType {
-    static let dolFile = UTType(exportedAs: "com.quatricsoftware.wiiloadsender.dol")
-    static let elfFile = UTType(exportedAs: "com.quatricsoftware.wiiloadsender.elf")
+    static let dolFile = UTType(exportedAs: "com.quatricsoftware.homebrewsender.dol")
+    static let elfFile = UTType(exportedAs: "com.quatricsoftware.homebrewsender.elf")
 }
 
 #Preview {

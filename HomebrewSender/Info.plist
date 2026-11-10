@@ -10,6 +10,8 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleDisplayName</key>
+	<string>Homebrew Sender</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
@@ -41,12 +43,12 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>NSLocalNetworkUsageDescription</key>
-	<string>WiiloadSender connects to your Wii or Wii U over your local network to send homebrew apps via wiiload.</string>
+	<string>HomebrewSender connects to your Wii or Wii U over your local network to send homebrew apps via wiiload.</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
 			<key>UTTypeIdentifier</key>
-			<string>com.quatricsoftware.wiiloadsender.dol</string>
+			<string>com.quatricsoftware.homebrewsender.dol</string>
 			<key>UTTypeDescription</key>
 			<string>Nintendo DOL Executable</string>
 			<key>UTTypeConformsTo</key>
@@ -63,7 +65,7 @@
 		</dict>
 		<dict>
 			<key>UTTypeIdentifier</key>
-			<string>com.quatricsoftware.wiiloadsender.elf</string>
+			<string>com.quatricsoftware.homebrewsender.elf</string>
 			<key>UTTypeDescription</key>
 			<string>ELF Executable</string>
 			<key>UTTypeConformsTo</key>
@@ -86,7 +88,7 @@
 			<string>Nintendo DOL Executable</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.quatricsoftware.wiiloadsender.dol</string>
+				<string>com.quatricsoftware.homebrewsender.dol</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -98,7 +100,7 @@
 			<string>ELF Executable</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.quatricsoftware.wiiloadsender.elf</string>
+				<string>com.quatricsoftware.homebrewsender.elf</string>
 			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
