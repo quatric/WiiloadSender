@@ -8,6 +8,8 @@ struct WiiloadSenderApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(settings)
+                .onAppear { settings.appearance.apply() }
+                .onChange(of: settings.appearance) { newValue in newValue.apply() }
         }
     }
 }

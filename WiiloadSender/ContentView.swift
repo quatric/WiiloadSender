@@ -159,7 +159,6 @@ struct ContentView: View {
                 Text("Enter a link to a .dol, .elf, .rpx or .zip file.")
             }
         }
-        .preferredColorScheme(settings.appearance.colorScheme)
     }
 
     private var canSend: Bool {

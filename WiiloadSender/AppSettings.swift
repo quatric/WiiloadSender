@@ -23,6 +23,23 @@ enum AppearanceMode: Int, CaseIterable, Identifiable {
         case .dark: return .dark
         }
     }
+
+    var interfaceStyle: UIUserInterfaceStyle {
+        switch self {
+        case .system: return .unspecified
+        case .light: return .light
+        case .dark: return .dark
+        }
+    }
+
+    /// Applies the style to every window so sheets (e.g. Settings) follow it too.
+    @MainActor
+    func apply() {
+        for scene in UIApplication.shared.connectedScenes {
+            guard let windowScene = scene as? UIWindowScene else { continue }
+            for window in windowScene.windows { window.overrideUserInterfaceStyle = interfaceStyle }
+        }
+    }
 }
 
 final class AppSettings: ObservableObject {
