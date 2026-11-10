@@ -84,6 +84,20 @@ struct ContentView: View {
                         }
                     }
 
+                    if !selectedFileName.isEmpty {
+                        Button(role: .destructive) {
+                            clearSelection()
+                            status = .idle
+                            errorMessage = nil
+                        } label: {
+                            HStack {
+                                Image(systemName: "xmark.circle")
+                                Text("Remove selected file")
+                            }
+                        }
+                        .disabled(status.isBusy)
+                    }
+
                     if let shareURL = sharedFileURL {
                         ShareLink(item: shareURL) {
                             HStack {
@@ -147,7 +161,7 @@ struct ContentView: View {
                 }
             }
             .alert("Load from URL", isPresented: $isShowingURLPrompt) {
-                TextField("https://example.com/app.dol", text: $urlText)
+                TextField("https://example.com/file", text: $urlText)
                     .keyboardType(.URL)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
@@ -163,7 +177,7 @@ struct ContentView: View {
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("Enter a link to a .dol, .elf, .rpx or .zip file.")
+                Text("Enter a link to the file you want to send.")
             }
         }
     }
@@ -217,16 +231,20 @@ struct ContentView: View {
         Task {
             do {
                 let data = try await Self.readCoordinated(url)
-                let ext = url.pathExtension.lowercased()
-                if !["dol", "elf", "rpx", "zip"].contains(ext) {
-                    errorMessage = "Selected file isn't a .dol, .elf, .rpx or .zip, but it'll be sent as-is."
-                }
                 setSelection(data: data, name: url.lastPathComponent, source: url)
             } catch {
                 errorMessage = "Couldn't read that file: \(error.localizedDescription)"
                 status = .failure
             }
         }
+    }
+
+    private func clearSelection() {
+        selectedFileData = nil
+        selectedFileURL = nil
+        selectedFileName = ""
+        selectedFileSize = 0
+        sharedFileURL = nil
     }
 
     private func setSelection(data: Data, name: String, source: URL?) {
@@ -273,6 +291,7 @@ struct ContentView: View {
                         status = .sending(fraction)
                     case .finished:
                         status = .success
+                        clearSelection()
                     }
                 }
             }
@@ -303,10 +322,7 @@ struct ContentView: View {
                 throw URLError(.badServerResponse)
             }
             var name = response.suggestedFilename ?? url.lastPathComponent
-            if name.isEmpty || name == "/" { name = "download.dol" }
-            let ext = (name as NSString).pathExtension.lowercased()
-            errorMessage = ["dol", "elf", "rpx", "zip"].contains(ext) ? nil
-                : "Downloaded file isn't a .dol, .elf, .rpx or .zip, but it'll be sent as-is."
+            if name.isEmpty || name == "/" { name = "download" }
             setSelection(data: data, name: name, source: url)
         } catch {
             errorMessage = "Download failed: \(error.localizedDescription)"
