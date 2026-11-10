@@ -10,7 +10,6 @@ struct ContentView: View {
     @State private var selectedFileSize: Int = 0
     @State private var sharedFileURL: URL?
 
-    @State private var isShowingFileImporter = false
     @State private var isShowingSettings = false
 
     @State private var isScanning = false
@@ -59,7 +58,9 @@ struct ContentView: View {
 
                 Section("File") {
                     Button {
-                        isShowingFileImporter = true
+                        FilePicker.present { result in
+                            DispatchQueue.main.async { handleFileImportResult(result.map { [$0] }) }
+                        }
                     } label: {
                         HStack {
                             Image(systemName: "doc.badge.plus")
@@ -117,16 +118,6 @@ struct ContentView: View {
                     statusFooter
                 }
             }
-            .background(
-                Color.clear
-                    .fileImporter(
-                        isPresented: $isShowingFileImporter,
-                        allowedContentTypes: [.item],
-                        allowsMultipleSelection: false
-                    ) { result in
-                        handleFileImportResult(result)
-                    }
-            )
             .navigationTitle("Wiiload Sender")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

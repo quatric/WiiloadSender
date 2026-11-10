@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1B2C3D4E5F60718293A4B5D /* FilePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D4E5F60718293A4B5C /* FilePicker.swift */; };
 		1CA85B07A52D5DE19B7DEFAB /* WiiloadSenderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD26A0E57CA1834258C9505A /* WiiloadSenderApp.swift */; };
 		7120FC4351BC4275F8F991D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B93B912EB16070B0ED4A6C0 /* ContentView.swift */; };
 		800B3DC58C800688DC3DBA96 /* WiiloadClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5A4AE5551B9CEF24B4DED40 /* WiiloadClient.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A1B2C3D4E5F60718293A4B5C /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		882FA8D7F69FD0C3EA5A7C18 /* WiiloadSender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WiiloadSender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD26A0E57CA1834258C9505A /* WiiloadSenderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WiiloadSenderApp.swift; sourceTree = "<group>"; };
 		3B93B912EB16070B0ED4A6C0 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 			children = (
 				CD26A0E57CA1834258C9505A /* WiiloadSenderApp.swift */,
 				3B93B912EB16070B0ED4A6C0 /* ContentView.swift */,
+				A1B2C3D4E5F60718293A4B5C /* FilePicker.swift */,
 				C5A4AE5551B9CEF24B4DED40 /* WiiloadClient.swift */,
 				81361B78FDD7743338723E5E /* ZlibStream.swift */,
 				E4889AACD300C0057B0B5848 /* AppSettings.swift */,
@@ -152,6 +155,7 @@
 			files = (
 				1CA85B07A52D5DE19B7DEFAB /* WiiloadSenderApp.swift in Sources */,
 				7120FC4351BC4275F8F991D4 /* ContentView.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5D /* FilePicker.swift in Sources */,
 				800B3DC58C800688DC3DBA96 /* WiiloadClient.swift in Sources */,
 				24E8270A3C8E9FF3A09FED41 /* ZlibStream.swift in Sources */,
 				944C21DDB9E563357488845E /* AppSettings.swift in Sources */,
