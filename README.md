@@ -1,6 +1,6 @@
 # Homebrew Sender
 
-A small iOS app (Wii, Wii U, 3DS and Switch) for sending `.dol` / `.elf` homebrew builds to a Wii or Wii U
+A small iOS and Android app (Wii, Wii U, 3DS and Switch) for sending `.dol` / `.elf` homebrew builds to a Wii or Wii U
 running the Homebrew Channel (or any other [wiiload](https://github.com/devkitPro/wiiload)
 listener) over your local network — no need for a laptop in the room.
 
@@ -19,12 +19,24 @@ listener) over your local network — no need for a laptop in the room.
 
 ## Requirements
 
-- Xcode 15+
-- iOS 16+
+- iOS: Xcode 15+, iOS 16+
+- Android: JDK 17, Android SDK 35, Android 7.0+ (API 24) device
 
 ## Building
 
-Open `HomebrewSender.xcodeproj` in Xcode, select your signing team, and run.
+**iOS:** open `HomebrewSender.xcodeproj` in Xcode, select your signing team, and run.
+
+**Android:** the app lives in `android/` (Kotlin + Jetpack Compose).
+
+```sh
+cd android
+./gradlew assembleRelease   # app/build/outputs/apk/release/app-release.apk
+./gradlew testDebugUnitTest # protocol tests against mock wiiload/3dslink/nxlink listeners
+```
+
+On Android, files can be picked from the system file picker, opened from another app
+("Open with"), or shared to Homebrew Sender from the share sheet (files or links).
+Compression uses `java.util.zip.Deflater`, which is backed by the platform's zlib.
 
 ## Protocol notes
 
